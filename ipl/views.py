@@ -19,10 +19,23 @@ def matches_played_per_year(request):
 def matches_won_per_team_per_year(request):
     result_data = MatchesEntry.objects.values('winner', 'season')\
         .annotate(count=Count('ID'))
-
+    formatted_result = {}
+    for team_data in result_data:
+        print(team_data)
+        season = team_data['season']
+        team = team_data['winner']
+        count = team_data['count']
+        if team == '':
+            continue
+        if season in formatted_result:
+            formatted_result[season][team] = count
+        else:
+            formatted_result[season] = {}
+            formatted_result[season][team] = count
     return JsonResponse({
-        "datasets": list(result_data)
+        "datasets": formatted_result
     })
+    # return JsonResponse(list(result_data), safe=False)
 
 
 # 3 Extra runs conceded per team in the year 2016
@@ -62,3 +75,21 @@ def top_10_economical_bowler_2015(request):
     return JsonResponse({
         "datasets": list(result_data)
     })
+
+
+def chart1(request):
+    return render(request, 'route1.html')
+
+
+def chart2(request):
+    return render(request, 'route2.html')
+
+
+def chart3(request):
+    return render(request, 'route3.html')
+
+
+def chart4(request):
+    return render(request, 'route4.html')
+
+
