@@ -13,7 +13,7 @@ class Command(BaseCommand):
             with transaction.atomic():
                 for row in reader:
                     MatchesEntry.objects.create(
-                        # ID=int(row['id']),
+                        ID=int(row['id']),
                         season=row['season'],
                         city=row['city'],
                         date=row['date'],
