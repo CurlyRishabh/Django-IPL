@@ -36,4 +36,3 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.import_csv('matches.csv')
-
