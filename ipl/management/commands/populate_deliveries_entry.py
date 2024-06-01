@@ -13,8 +13,7 @@ class Command(BaseCommand):
                 for row in reader:
                     # Convert match_id to MatchesEntry object
                     curr_match_id = int(row['match_id'])
-                    match = MatchesEntry.objects.get(ID=curr_match_id)
-                    
+                    match = MatchesEntry.objects.get(ID=curr_match_id)                 
                     # Create DeliveriesEntry object
                     delivery = DeliveriesEntry(
                         match_id=match,
