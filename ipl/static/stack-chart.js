@@ -1,53 +1,53 @@
-function makeStackChart(categoriesData, seriesData, chartTitle) {
-    Highcharts.chart("container", {
+function makeStackChart( categoriesData,
+    seriesData,chartTitle){
+    Highcharts.chart('container', {
         chart: {
-            type: "column",
+            type: 'column'
         },
         title: {
             text: chartTitle.title,
-            align: "left",
+            align: 'left'
         },
         xAxis: {
             // season
             // categories: ['Arsenal', 'Chelsea', 'Liverpool', 'Manchester United']
             categories: categoriesData,
             title: {
-                text: chartTitle.xAxisTitle,
-            },
+                text: chartTitle.xAxisTitle
+            }
         },
         yAxis: {
             min: 0,
             title: {
-                text: chartTitle.yAxisTitle,
+                text: chartTitle.yAxisTitle
             },
             stackLabels: {
-                enabled: true,
-            },
+                enabled: true
+            }
         },
         legend: {
-            align: "left",
+            align: 'left',
             x: 70,
-            verticalAlign: "bottom",
+            verticalAlign: 'bottom',
             // y: 70,
             floating: false,
             backgroundColor:
-                Highcharts.defaultOptions.legend.backgroundColor || "white",
-            borderColor: "#CCC",
+                Highcharts.defaultOptions.legend.backgroundColor || 'white',
+            borderColor: '#CCC',
             borderWidth: 1,
-            shadow: false,
+            shadow: false
         },
         tooltip: {
-            headerFormat: "<b>{point.x}</b><br/>",
-            pointFormat:
-                "{series.name}: {point.y}<br/>Total: {point.stackTotal}",
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
         },
         plotOptions: {
             column: {
-                stacking: "normal",
+                stacking: 'normal',
                 dataLabels: {
-                    enabled: true,
-                },
-            },
+                    enabled: true
+                }
+            }
         },
         // series: [{
         //     name: 'BPL',
@@ -59,6 +59,7 @@ function makeStackChart(categoriesData, seriesData, chartTitle) {
         //     name: 'CL',
         //     data: [0, 2, 6, 3]
         // }]
-        series: seriesData,
-    });
+        series: seriesData
+});
+
 }
