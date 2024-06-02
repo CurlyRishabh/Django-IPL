@@ -15,5 +15,5 @@
 ![img](charts_png/matches-played-each-seas.png)
  
 - Top 10 economical bowlers in the year 2015
-![img](charts_png/number-of-matches-won-pe.png)
+![img](charts_png/top-10-economical-bowler.png)
 
