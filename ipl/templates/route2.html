@@ -5,11 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+
 </head>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="{% static 'stack-chart.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>
@@ -20,15 +23,20 @@
 
 </body>
 <script>
-    const team_data = {}
-
-    const season = []
+    
     $(document).ready(function () {
         $.ajax({
             url: "/ipl/route2/",
             type: "GET",
             dataType: "json",
             success: function (jsonResponse) {
+                const team_data = {}
+                const season = []
+                const chartTitle = {
+                    title: 'Number of matches won per team per year in IPL.',
+                    yAxisTitle: 'Win Counts',
+                    xAxisTitle: 'Seasons',
+                }
                 // Load all the options
                 console.log(jsonResponse.datasets)
                 const jsonData = jsonResponse.datasets;
@@ -44,73 +52,17 @@
                     }
                 }
                 console.log(team_data)
+                
+                // converting to highChart format series data
                 const series_data = Object.entries(team_data).map( ([teamName, winCountArray]) => {
                     return {
                         name: teamName,
                         data: winCountArray
                     }
                 })
-                console.log(series_data)
-        Highcharts.chart('container', {
-            chart: {
-                type: 'column'
+                
+                makeStackChart(season, series_data, chartTitle      )
             },
-            title: {
-                text: 'Number of matches won per team per year in IPL.',
-                align: 'left'
-            },
-            xAxis: {
-                // season
-                // categories: ['Arsenal', 'Chelsea', 'Liverpool', 'Manchester United']
-                categories: season
-
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Win Counts'
-                },
-                stackLabels: {
-                    enabled: true
-                }
-            },
-            legend: {
-                align: 'left',
-                x: 70,
-                verticalAlign: 'bottom',
-                // y: 70,
-                floating: false,
-                backgroundColor:
-                    Highcharts.defaultOptions.legend.backgroundColor || 'white',
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-            },
-            tooltip: {
-                headerFormat: '<b>{point.x}</b><br/>',
-                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-            },
-            plotOptions: {
-                column: {
-                    stacking: 'normal',
-                    dataLabels: {
-                        enabled: true
-                    }
-                }
-            },
-            // series: [{
-            //     name: 'BPL',
-            //     data: [3, 5, 1, 13]
-            // }, {
-            //     name: 'FA Cup',
-            //     data: [14, 8, 8, 12]
-            // }, {
-            //     name: 'CL',
-            //     data: [0, 2, 6, 3]
-            // }]
-            series: series_data
-});
-    },
         error: function (xhr, status, error) {
             console.error("Error fetching options:", error);
         }
