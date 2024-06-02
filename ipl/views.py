@@ -93,3 +93,5 @@ def chart4(request):
     return render(request, 'route4.html')
 
 
+def chart5(request):
+    return render(request, 'route5.html')

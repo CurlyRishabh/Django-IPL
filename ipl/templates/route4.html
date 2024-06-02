@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+
 </head>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="{% static 'column-bar-chart.js' %}"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>
@@ -20,8 +24,6 @@
 
 </body>
 <script>
-    const bowlingTeam = []
-    const runConceded =[]
     $(document).ready(function () {
         $.ajax({
             url: "/ipl/route4/",
@@ -30,58 +32,18 @@
             success: function (jsonResponse) {
                 // Load all the options
                 console.log(jsonResponse.datasets)
+                const bowlerArray = []
+                const economyRateData = []
                 jsonResponse.datasets.forEach(element => {
-                    bowlingTeam.push(element.bowler)
-                    runConceded.push(element.economy)
+                    bowlerArray.push(element.bowler)
+                    economyRateData.push(element.economy)
                 });
-                Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Top 10 economical bowlers in the year 2015',
-            align: 'left'
-        },
-        xAxis: {
-            categories: bowlingTeam,
-            // categories: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017'],
-
-            crosshair: true,
-            accessibility: {
-                description: 'Countries'
-            },
-            title: {
-                text: 'Player'
-            },
-            labels: {
-        rotation: 90
-    }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Economy rate'
-            }
-        },
-        tooltip: {
-            valueSuffix: ' (Matches)'
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [
-            {
-                // data: [58, 57, 60, 73, 74, 76, 60, 59, 60, 59],
-                data: runConceded,
-                name: 'year',
-                showInLegend: false
-
-            }
-        ]
-    });
+                const chartTitle = {
+                    title: 'Top 10 economical bowlers in the year 2015',
+                    xAxisTitle: 'Players',
+                    yAxisTitle: 'Economy rate',
+                }
+                makeColumnBarChart(bowlerArray, economyRateData, chartTitle)
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching options:", error);
@@ -89,7 +51,7 @@
         });
     });
 
-  
+
 
 </script>
 
